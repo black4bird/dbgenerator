@@ -11,8 +11,13 @@ public class Dog extends RealmObject {
         String NAME = "name";
     }
 
+    public interface Relationships {
+        String OWNER = "owner";
+    }
+
     private short age;
     private String name;
+    private Person owner;
 
     public short getAge() {
         return age;
@@ -28,5 +33,13 @@ public class Dog extends RealmObject {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(final Person owner) {
+        this.owner = owner;
     }
 }

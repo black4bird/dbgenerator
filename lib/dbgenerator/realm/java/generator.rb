@@ -75,10 +75,11 @@ module DBGenerator
             attribute_constants << '    ' + '}'+ "\n\n"
           end
           relationship_constants = String.new
-          if not entity.relationships.empty? and not entity.has_only_inverse?
+          if not entity.relationships.empty? # and not entity.has_only_inverse?
             relationship_constants << '    ' + RELATIONSHIP_CONSTANTS + "\n"
             entity.relationships.each do |_, relationship|
-              relationship_constants << '        ' + CONSTANT_TEMPLATE%[relationship.name.underscore.upcase, relationship.name] + "\n" unless relationship.inverse?
+              name = relationship.name.delete_inverse_suffix
+              relationship_constants << '        ' + CONSTANT_TEMPLATE%[name.underscore.upcase, name] + "\n"
             end
             relationship_constants << '    ' + '}'+ "\n\n"
           end
@@ -94,11 +95,11 @@ module DBGenerator
           (attributes_string, getters_and_setters_string) = write_attributes(attributes, primary_key)
           # "RELATIONSHIP" ATTRIBUTES
           relationships.each do |_, relationship|
-            unless relationship.inverse?
+            #unless relationship.inverse?
               if relationship.destination.empty?
                 type_without_prefix = relationship.inverse_type.delete_objc_prefix
                 type = relationship.type == :to_many ? REALM_LIST_TEMPLATE%[type_without_prefix] : type_without_prefix
-                name = relationship.name
+                name = relationship.name.delete_inverse_suffix
               else
                 type = LIST_TEMPLATE%[relationship.destination]
                 name = relationship.name
@@ -108,7 +109,7 @@ module DBGenerator
               attributes_string << '    ' + ATTRIBUTE_TEMPLATE%[type, name] + "\n"
               getters_and_setters_string << "\n" unless getters_and_setters_string.empty?
               getters_and_setters_string << generate_getter_and_setter(type, name)
-            end
+            #end
           end
           class_file << attributes_string + "\n" + getters_and_setters_string
         end
