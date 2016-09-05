@@ -80,6 +80,8 @@ module DBGenerator
                 attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], RealmOptionalFloatTransform())\n"
               when attribute.type == :double && attribute.optional
                 attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], RealmOptionalDoubleTransform())\n"
+              when attribute.type == :boolean && attribute.optional
+                attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], RealmOptionalBoolTransform())\n"
               when 
                 attributes << "    self." + attribute.name + " <- map[" + attrKey.add_quotes + "]\n"
             end
