@@ -83,7 +83,7 @@ module DBGenerator
             entity.attributes.each do |_, attribute|
               unless attribute.realm_ignored? or attribute.read_only?
                 attribute_constants << '        ' + ATTRIBUTE_COMMENT_TEMPLATE%[attribute.comment] + "\n" unless attribute.comment.empty?
-                attribute_constants << '        ' + ENUM_STRING_CASE_TEMPLATE%[attribute.name.capitalize_first_letter, attribute.name] + "\n"
+                attribute_constants << '        ' + ENUM_STRING_CASE_TEMPLATE%[attribute.name, attribute.name] + "\n"
               end
             end
             attribute_constants << '    ' + '}'+ "\n\n"
@@ -92,7 +92,7 @@ module DBGenerator
           if not entity.relationships.empty? and not entity.has_only_inverse?
             relationship_constants << '    ' + ENUM_STRING_DEF_TEMPLATE%['Relationships'] + "\n"
             entity.relationships.each do |_, relationship|
-              relationship_constants << '        ' + ENUM_STRING_CASE_TEMPLATE%[relationship.name.capitalize_first_letter, relationship.name] + "\n" if not relationship.inverse?
+              relationship_constants << '        ' + ENUM_STRING_CASE_TEMPLATE%[relationship.name, relationship.name] + "\n" if not relationship.inverse?
             end
             relationship_constants << '    ' + '}'+ "\n\n"
           end
@@ -180,7 +180,7 @@ module DBGenerator
 
           if attribute.optional?
             enum_string << '        ' + "set { #{attribute.name} = newValue?.rawValue ?? nil }" + "\n"
-          else 
+          else
             enum_string << '        ' + "set { #{attribute.name} = newValue?.rawValue ?? \"\" }" + "\n"
           end
           enum_string << '    ' + '}' + "\n\n"
