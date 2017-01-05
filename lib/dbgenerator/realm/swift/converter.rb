@@ -28,8 +28,8 @@ module DBGenerator
             :float => 'Float',
             :string => 'String',
             :boolean => 'Bool',
-            :date => 'NSDate',
-            :binary => 'NSData'
+            :date => 'Date',
+            :binary => 'Data'
         }
 
         DEFAULTS = {
@@ -41,8 +41,8 @@ module DBGenerator
             :float => '0.0',
             :string => '""',
             :boolean => 'false',
-            :date => 'NSDate()',
-            :binary => 'NSData()'
+            :date => 'Date()',
+            :binary => 'Data()'
         }
 
         def convert_type(type)
