@@ -32,6 +32,10 @@ class String
     self.slice(0, 1).capitalize + self.slice(1..-1)
   end
 
+  def uncapitalize_first_letter
+    self[0, 1].downcase + self[1..-1]
+  end
+
   def camel_case
     words = self.scan(/[A-Z][a-z]+/)
     words.map!(&:upcase)

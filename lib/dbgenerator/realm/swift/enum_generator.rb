@@ -49,7 +49,7 @@ module DBGenerator
           raw_values = raw_values(enum_values, raw_values)
           if !enum_values.empty? and raw_values.length == enum_values.length
             (0..enum_values.length - 1).each { |idx|
-              enum_value = enum_values[idx].delete_objc_prefix
+              enum_value = enum_values[idx].delete_objc_prefix.uncapitalize_first_letter
               raw_value = raw_values[idx]
               enum_file << '    ' + ENUM_STRING_CASE_TEMPLATE%[enum_value, raw_value] + "\n"
             }
