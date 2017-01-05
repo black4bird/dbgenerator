@@ -71,7 +71,7 @@ module DBGenerator
         def generate_init()
           source_file = String.new
           source_file << "  // MARK: Initializers\n\n"
-          source_file << "  convenience init?(_ map: Map) {\n"
+          source_file << "  convenience init?(map: Map) {\n"
           source_file << "    self.init()\n"
           source_file << "  }\n\n"
           source_file
@@ -82,7 +82,7 @@ module DBGenerator
           attributes << "\n    // MARK: Attributes\n"
           entity.attributes.each do |_, attribute|
             attrKey = attribute.json_key_path.empty? ? attribute.name : attribute.json_key_path
-            case 
+            case
               when attribute.type == :date
                 transformer = attribute.transformer.empty? ? "ISO8601DateTransform" : attribute.transformer
                 attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], " + transformer + "())\n"
@@ -96,7 +96,7 @@ module DBGenerator
                 attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], RealmOptionalFloatTransform())\n"
               when attribute.type == :double && attribute.optional
                 attributes << "    self." + attribute.name + " <- (map[" + attrKey.add_quotes + "], RealmOptionalDoubleTransform())\n"
-              when 
+              when
                 attributes << "    self." + attribute.name + " <- map[" + attrKey.add_quotes + "]\n"
             end
           end
@@ -111,7 +111,7 @@ module DBGenerator
             relationKey = relationship.json_key_path.empty? ? relationship.name : relationship.json_key_path
             if relationship.type == :to_many
               relationships << "    self." + relationship.name + " <- (map[" + relationKey.add_quotes + "], ListTransform<" + relationship.inverse_type + ">())\n"
-            else 
+            else
               relationships << "    self." + relationship.name + " <- map[" + relationKey.add_quotes + "]\n"
             end
           end
